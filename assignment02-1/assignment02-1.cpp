@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////
-// ma nhom bai tap lon:		23
-// ten mon hoc:				xu ly anh
+// 
+// ma nhom btl:		23
+// ten mon hoc:     xu ly anh
 // thong tin sv1:   Dao Quy Anh         - B18DCDT003    - 03 - B18CQDT03-B - daoquyanh13700@gmail.com
 // thong tin sv2:	Dang Hoang Giang    - B18DCDT059    - 04 - B18CQDT03-B - dgiang69@gmail.com
 // thong tin sv3:   Nguyen Huy Hung     - B18DCDT091    - 04 - B18CQDT03-B - nhuyhung146@gmail.com
