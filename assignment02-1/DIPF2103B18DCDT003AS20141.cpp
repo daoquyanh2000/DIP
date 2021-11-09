@@ -7,121 +7,120 @@
 */
 
 
-#include "opencv2/imgproc.hpp"
-#include "opencv2/highgui.hpp"
-#include <iostream>
+//#include <opencv2/core.hpp>
+//#include <opencv2/highgui.hpp>
+//#include <opencv2/imgcodecs.hpp>
+//#include <opencv2/imgproc.hpp>
+//
+//using namespace cv;
 
-using namespace cv;
-using namespace std;
-
-#define input "D:/VS_Projects/resources/DIPF2103B18DCDT003AS20141.jpg"
-
-void fftshift(const Mat& inputImg, Mat& outputImg);
-void filter2DFreq(const Mat& inputImg, Mat& outputImg, const Mat& H);
-void synthesizeFilterH(Mat& inputOutput_H, Point center, int radius);
-void calcPSD(const Mat& inputImg, Mat& outputImg, int flag = 0);
-
-int main()
-{
-    Mat src = imread(input, 0);
-    if (src.empty()) //check whether the image is loaded or not
-    {
-        return -1;
-    }
-    src.convertTo(src, CV_32F);
-    // it needs to process even image only
-    Rect roi = Rect(0, 0, src.cols & -2, src.rows & -2);
-    src = src(roi);
-    // PSD calculation (start)
-    Mat imgPSD;
-    calcPSD(src, imgPSD);
-    fftshift(imgPSD, imgPSD);
-    normalize(imgPSD, imgPSD, 0, 255, NORM_MINMAX);
-    // PSD calculation (stop)
-    //H calculation (start)
-    Mat H = Mat(roi.size(), CV_32F, Scalar(1));
-    const int r = 21;
-    synthesizeFilterH(H, Point(705, 458), r);
-    synthesizeFilterH(H, Point(850, 391), r);
-    synthesizeFilterH(H, Point(993, 325), r);
-    //H calculation (stop)
-    // filtering (start)
-    Mat imgOut;
-    fftshift(H, H);
-    filter2DFreq(src, imgOut, H);
-    // filtering (stop)
-    imgOut.convertTo(imgOut, CV_8U);
-    normalize(imgOut, imgOut, 0, 255, NORM_MINMAX);
-    imwrite("result.jpg", imgOut);
-    imwrite("PSD.jpg", imgPSD);
-    fftshift(H, H);
-    normalize(H, H, 0, 255, NORM_MINMAX);
-    imwrite("filter.jpg", H);
-    return 0;
-}
-void fftshift(const Mat & inputImg, Mat & outputImg)
-{
-    outputImg = inputImg.clone();
-    int cx = outputImg.cols / 2;
-    int cy = outputImg.rows / 2;
-    Mat q0(outputImg, Rect(0, 0, cx, cy));
-    Mat q1(outputImg, Rect(cx, 0, cx, cy));
-    Mat q2(outputImg, Rect(0, cy, cx, cy));
-    Mat q3(outputImg, Rect(cx, cy, cx, cy));
-    Mat tmp;
-    q0.copyTo(tmp);
-    q3.copyTo(q0);
-    tmp.copyTo(q3);
-    q1.copyTo(tmp);
-    q2.copyTo(q1);
-    tmp.copyTo(q2);
-}
-void filter2DFreq(const Mat & inputImg, Mat & outputImg, const Mat & H) {
-    Mat planes[2] = { Mat_<float>(inputImg.clone()), Mat::zeros(inputImg.size(), CV_32F) };
-    Mat complexI;
-    merge(planes, 2, complexI);
-    dft(complexI, complexI, DFT_SCALE);
-    Mat planesH[2] = { Mat_<float>(H.clone()), Mat::zeros(H.size(), CV_32F) };
-    Mat complexH;
-    merge(planesH, 2, complexH);
-    Mat complexIH;
-    mulSpectrums(complexI, complexH, complexIH, 0);
-    idft(complexIH, complexIH);
-    split(complexIH, planes);
-    outputImg = planes[0];
-}
-void synthesizeFilterH(Mat & inputOutput_H, Point center, int radius) {
-    Point c2 = center, c3 = center, c4 = center;
-    c2.y = inputOutput_H.rows - center.y;
-    c3.x = inputOutput_H.cols - center.x;
-    c4 = Point(c3.x, c2.y);
-    circle(inputOutput_H, center, radius, 0, -1, 8);
-    circle(inputOutput_H, c2, radius, 0, -1, 8);
-    circle(inputOutput_H, c3, radius, 0, -1, 8);
-    circle(inputOutput_H, c4, radius, 0, -1, 8);
-}
-// Function calculates PSD(Power spectrum density) by fft with two flags
-// flag = 0 means to return PSD
-// flag = 1 means to return log(PSD)
-void calcPSD(const Mat & inputImg, Mat & outputImg, int flag) {
-    Mat planes[2] = { Mat_<float>(inputImg.clone()), Mat::zeros(inputImg.size(), CV_32F) };
-    Mat complexI;
-    merge(planes, 2, complexI);
-    dft(complexI, complexI);
-    split(complexI, planes);            // planes[0] = Re(DFT(I)), planes[1] = Im(DFT(I))
-    planes[0].at<float>(0) = 0;
-    planes[1].at<float>(0) = 0;
-    // compute the PSD = sqrt(Re(DFT(I))^2 + Im(DFT(I))^2)^2
-    Mat imgPSD;
-    magnitude(planes[0], planes[1], imgPSD);        //imgPSD = sqrt(Power spectrum density)
-    pow(imgPSD, 2, imgPSD);                         //it needs ^2 in order to get PSD
-    outputImg = imgPSD;
-    // logPSD = log(1 + PSD)
-    if (flag)
-    {
-        Mat imglogPSD;
-        imglogPSD = imgPSD + Scalar::all(1);
-        log(imglogPSD, imglogPSD);
-        outputImg = imglogPSD;
-    }
-}
+//void fftshift(const Mat& input_img, Mat& output_img)
+//{
+//	output_img = input_img.clone();
+//	int cx = output_img.cols / 2;
+//	int cy = output_img.rows / 2;
+//	Mat q1(output_img, Rect(0, 0, cx, cy));
+//	Mat q2(output_img, Rect(cx, 0, cx, cy));
+//	Mat q3(output_img, Rect(0, cy, cx, cy));
+//	Mat q4(output_img, Rect(cx, cy, cx, cy));
+//
+//	Mat temp;
+//	q1.copyTo(temp);
+//	q4.copyTo(q1);
+//	temp.copyTo(q4);
+//	q2.copyTo(temp);
+//	q3.copyTo(q2);
+//	temp.copyTo(q3);
+//}
+//
+//
+//void calculateDFT(Mat& scr, Mat& dst)
+//{
+//	// define mat consists of two mat, one for real values and the other for complex values
+//	Mat planes[] = { scr, Mat::zeros(scr.size(), CV_32F) };
+//	Mat complexImg;
+//	merge(planes, 2, complexImg);
+//
+//	dft(complexImg, complexImg);
+//	dst = complexImg;
+//}
+//
+//Mat construct_H(Mat& scr, String type, float D0)
+//{
+//	Mat H(scr.size(), CV_32F, Scalar(1));
+//	float D = 0;
+//	if (type == "Ideal")
+//	{
+//		for (int u = 0; u < H.rows; u++)
+//		{
+//			for (int v = 0; v < H.cols; v++)
+//			{
+//				D = sqrt((u - scr.rows / 2) * (u - scr.rows / 2) + (v - scr.cols / 2) * (v - scr.cols / 2));
+//				if (D > D0)
+//				{
+//					H.at<float>(u, v) = 0;
+//				}
+//			}
+//		}
+//		return H;
+//	}
+//	else if (type == "Gaussian")
+//	{
+//		for (int u = 0; u < H.rows; u++)
+//		{
+//			for (int v = 0; v < H.cols; v++)
+//			{
+//				D = sqrt((u - scr.rows / 2) * (u - scr.rows / 2) + (v - scr.cols / 2) * (v - scr.cols / 2));
+//				H.at<float>(u, v) = exp(-D * D / (2 * D0 * D0));
+//			}
+//		}
+//		return H;
+//	}
+//}
+//
+//
+//void filtering(Mat& scr, Mat& dst, Mat& H)
+//{
+//	fftshift(H, H);
+//	Mat planesH[] = { Mat_<float>(H.clone()), Mat_<float>(H.clone()) };
+//
+//	Mat planes_dft[] = { scr, Mat::zeros(scr.size(), CV_32F) };
+//	split(scr, planes_dft);
+//
+//	Mat planes_out[] = { Mat::zeros(scr.size(), CV_32F), Mat::zeros(scr.size(), CV_32F) };
+//	planes_out[0] = planesH[0].mul(planes_dft[0]);
+//	planes_out[1] = planesH[1].mul(planes_dft[1]);
+//
+//	merge(planes_out, 2, dst);
+//
+//}
+//
+//
+//int main()
+//{
+//	Mat imgIn = imread("D:/VS_Projects/resources/DIPF2103B18DCDT003AS20141.jpg", 0);
+//	imgIn.convertTo(imgIn, CV_32F);
+//
+//	// DFT
+//	Mat DFT_image;
+//	calculateDFT(imgIn, DFT_image);
+//
+//	// construct H
+//	Mat H;
+//	H = construct_H(imgIn, "Ideal", 85);
+//
+//	// filtering
+//	Mat complexIH;
+//	filtering(DFT_image, complexIH, H);
+//
+//	// IDFT
+//	Mat imgOut;
+//	dft(complexIH, imgOut, DFT_INVERSE | DFT_REAL_OUTPUT);
+//
+//	normalize(imgOut, imgOut, 0, 1, NORM_MINMAX);
+//
+//	imshow("img", imgIn);
+//	imshow("DFT", imgOut);
+//	waitKey(0);
+//	return 0;
+//}
