@@ -142,7 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="assignment02-1.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS10211.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS10221.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS10231.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS10232.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS10233.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS10241.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
