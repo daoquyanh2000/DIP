@@ -15,22 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DIPF2103B18DCDT003AS10231.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DIPF2103B18DCDT003AS10211.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DIPF2103B18DCDT003AS10221.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DIPF2103B18DCDT003AS10241.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DIPF2103B18DCDT003AS10232.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DIPF2103B18DCDT003AS10233.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
