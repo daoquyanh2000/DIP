@@ -21,5 +21,11 @@
     <ClCompile Include="DIPF2103B18DCDT003AS10221.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DIPF2103B18DCDT003AS20131.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DIPF2103B18DCDT003AS20141.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

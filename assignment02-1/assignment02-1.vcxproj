@@ -144,6 +144,8 @@
   <ItemGroup>
     <ClCompile Include="DIPF2103B18DCDT003AS10211.cpp" />
     <ClCompile Include="DIPF2103B18DCDT003AS10221.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS20131.cpp" />
+    <ClCompile Include="DIPF2103B18DCDT003AS20141.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
